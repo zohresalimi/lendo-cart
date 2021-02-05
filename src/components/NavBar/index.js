@@ -1,6 +1,8 @@
 import React from "react";
 
-import { AppBar, Toolbar, IconButton, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, Button, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
+
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 import useStyles from "./style";
@@ -12,17 +14,24 @@ export default function NavBar() {
     <div className={classes.root}>
       <AppBar position="static" className={classes.header}>
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography
+            variant="h6"
+            className={classes.title}
+            component={Link}
+            to="/"
+          >
             OnlineShop
           </Typography>
-          <IconButton
+          <Button
             edge="end"
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
+            component={Link}
+            to="/checkout"
           >
             <ShoppingCartIcon />
-          </IconButton>
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
