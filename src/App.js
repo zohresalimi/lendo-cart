@@ -11,6 +11,7 @@ import store from "./store";
 import HomePage from "./pages/HomePage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import CheckoutPage from "./pages/CheckoutPage";
+import NavBar from "./components/NavBar";
 
 new Server({
   routes() {
@@ -26,8 +27,9 @@ function App() {
 
   return (
     <AppContext.Provider value={{ state, dispatch }}>
-      <Container maxWidth="sm">
-        <Router>
+      <Router>
+        <NavBar />
+        <Container maxWidth="md">
           <Switch>
             <Route exact path="/" component={HomePage}></Route>
             <Route
@@ -36,8 +38,8 @@ function App() {
             ></Route>
             <Route path="/checkout" component={CheckoutPage}></Route>
           </Switch>
-        </Router>
-      </Container>
+        </Container>
+      </Router>
     </AppContext.Provider>
   );
 }
