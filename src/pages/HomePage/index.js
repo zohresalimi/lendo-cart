@@ -14,6 +14,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import useAxios from "../../hooks/useAxios";
 import AppContext from "../../store/context";
+import { formatPrice } from "../../utils";
 import { SET_PRODUCTS_REDUCER } from "../../constant";
 
 export default function HomePage() {
@@ -49,7 +50,9 @@ export default function HomePage() {
                     </TableCell>
                     <TableCell align="right">{row.brand}</TableCell>
                     <TableCell align="right">{!!row.available}</TableCell>
-                    <TableCell align="right">{row.price}</TableCell>
+                    <TableCell align="right">
+                      {formatPrice(row.price)}
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
