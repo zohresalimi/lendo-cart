@@ -1,9 +1,8 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer } from "react";
 import { Server } from "miragejs";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Container } from "@material-ui/core";
 
-import useAxios from "./hooks/useAxios";
 import myData from "./mockProducts.json";
 import AppContext from "./store/context";
 import store from "./store";
@@ -25,17 +24,16 @@ new Server({
 function App() {
   const [state, dispatch] = useReducer(store.reducer, store.state);
 
-  const [{ data, isLoading, isError }, doFetch] = useAxios();
-
-  useEffect(() => {}, [input]);
-
   return (
     <AppContext.Provider value={{ state, dispatch }}>
       <Container maxWidth="sm">
         <Router>
           <Switch>
             <Route exact path="/" component={HomePage}></Route>
-            <Route path="/product-detail" component={ProductDetailPage}></Route>
+            <Route
+              path="/product-detail/:id"
+              component={ProductDetailPage}
+            ></Route>
             <Route path="/checkout" component={CheckoutPage}></Route>
           </Switch>
         </Router>
