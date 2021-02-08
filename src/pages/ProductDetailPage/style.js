@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
       display: "inline-block",
       height: "0.5em",
       verticalAlign: "bottom",
-      width: "100%",
+      width: "95%",
       marginRight: "-100%",
       marginLeft: "10px",
       borderTop: "1px solid rgb(189 189 189)",

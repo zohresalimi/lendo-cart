@@ -12,6 +12,8 @@ import {
 } from "@material-ui/core";
 import AppContext from "../../store/context";
 
+import ColorPicker from "../../components/ColorPicker";
+
 import useStyles from "./style";
 
 export default function ProductDetailPage() {
@@ -42,12 +44,16 @@ export default function ProductDetailPage() {
           onClose={back}
           aria-labelledby="responsive-dialog-title"
         >
-          <DialogTitle id="alert-dialog-title">
+          <DialogTitle id="responsive-dialog-title">
             {product.name}
             <p className={classes.brandTag}>{product.brand}</p>
           </DialogTitle>
           <DialogContent>
-            <DialogContentText id="alert-dialog-description"></DialogContentText>
+            <DialogContentText>
+              Let Google help apps determine location. This means sending
+              anonymous location data to Google, even when no apps are running.
+            </DialogContentText>
+            {product.byColor && <ColorPicker item={product.byColor} />}
           </DialogContent>
           <DialogActions>
             <Button onClick={back} color="primary">
