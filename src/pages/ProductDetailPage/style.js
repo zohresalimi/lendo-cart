@@ -16,6 +16,28 @@ const useStyles = makeStyles((theme) => ({
       borderTop: "1px solid rgb(189 189 189)",
     },
   },
+  priceTag: {},
+
+  success: {
+    color: "#4caf50",
+    border: "1px solid #4caf50",
+    marginRight: "10px",
+  },
+
+  addToCart: {
+    backgroundColor: "rgb(43 43 43)",
+    color: "#aeaeae",
+    "&:hover": {
+      color: "white",
+      backgroundColor: "black",
+    },
+  },
+  cancelBtn: {
+    color: "#949494",
+    "&:hover": {
+      color: "black",
+    },
+  },
 }));
 
 export default useStyles;

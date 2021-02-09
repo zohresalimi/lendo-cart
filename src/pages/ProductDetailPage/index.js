@@ -1,30 +1,58 @@
-import React, { useContext, useMemo } from "react";
+import React, { useContext, useMemo, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import {
   Dialog,
   Button,
   DialogTitle,
   DialogContent,
-  DialogContentText,
   DialogActions,
   useMediaQuery,
   useTheme,
+  Chip,
 } from "@material-ui/core";
+import DoneIcon from "@material-ui/icons/Done";
+import Avatar from "@material-ui/core/Avatar";
+
 import AppContext from "../../store/context";
 
 import ColorPicker from "../../components/ColorPicker";
+import Feature from "../../components/Features";
+
+import { formatPrice } from "../../utils";
 
 import useStyles from "./style";
+
+import { SET_CURRENT_PRODUCT, ADD_PRODUCT_TO_CART } from "../../constant";
 
 export default function ProductDetailPage() {
   const { state, dispatch } = useContext(AppContext);
   const { productByIds } = state.products;
+
   const history = useHistory();
   let { id } = useParams();
+  const product = productByIds[id];
+  const productByColor = useMemo(() => {
+    if (state.currentProduct) {
+      return product.byColor[state.currentProduct.selectedFeatures.color];
+    }
+  }, [product.byColor, state.currentProduct]);
 
-  const product = useMemo(() => productByIds[id], [productByIds, id]);
+  const isDisabled = useMemo(() => {
+    if (productByColor) {
+      return !product.available || !productByColor.remaining;
+    }
+  }, [product, productByColor]);
 
-  console.log("product:", product);
+  useEffect(() => {
+    if (product) {
+      dispatch({ type: SET_CURRENT_PRODUCT, data: product });
+    }
+  }, [dispatch, product]);
+
+  const addToCart = (e) => {
+    dispatch({ type: ADD_PRODUCT_TO_CART });
+    back(e);
+  };
 
   const back = (e) => {
     e.stopPropagation();
@@ -42,6 +70,8 @@ export default function ProductDetailPage() {
           fullScreen={fullScreen}
           open={true}
           onClose={back}
+          fullWidth={true}
+          maxWidth={"sm"}
           aria-labelledby="responsive-dialog-title"
         >
           <DialogTitle id="responsive-dialog-title">
@@ -49,31 +79,52 @@ export default function ProductDetailPage() {
             <p className={classes.brandTag}>{product.brand}</p>
           </DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Let Google help apps determine location. This means sending
-              anonymous location data to Google, even when no apps are running.
-            </DialogContentText>
-            {product.byColor && <ColorPicker item={product.byColor} />}
+            <h3 className={classes.priceTag}>{formatPrice(product.price)}</h3>
+            <Chip
+              className={product.available ? classes.success : ""}
+              size="small"
+              label={product.available ? "In stock" : "out stock"}
+              variant="outlined"
+              icon={
+                product.available ? <DoneIcon style={{ color: "green" }} /> : ""
+              }
+            />
+            <Chip
+              color="secondary"
+              size="small"
+              avatar={<Avatar>W</Avatar>}
+              label={`${product.weight}`}
+              variant="outlined"
+              deleteIcon={<DoneIcon />}
+            />
+
+            {product.byColor && (
+              <>
+                <ColorPicker items={product.byColor} />
+                <Feature />
+              </>
+            )}
           </DialogContent>
           <DialogActions>
-            <Button onClick={back} color="primary">
-              Disagree
+            <Button
+              onClick={back}
+              color="primary"
+              className={classes.cancelBtn}
+            >
+              cancel
             </Button>
-            <Button onClick={back} color="primary" autoFocus>
-              Agree
+            <Button
+              variant="contained"
+              autoFocus
+              className={classes.addToCart}
+              onClick={addToCart}
+              disabled={isDisabled}
+            >
+              Add To cart
             </Button>
           </DialogActions>
         </Dialog>
       )}
-      {/* <div role="button" className="modal-wrapper" onClick={back}>
-        <div
-          role="button"
-          className="modal"
-          onClick={(e) => e.stopPropagation()}
-        >
-          <p>CONTENT</p>
-        </div>
-      </div> */}
     </div>
   );
 }

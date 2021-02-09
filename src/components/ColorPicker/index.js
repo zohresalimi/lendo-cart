@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useCallback } from "react";
 import { Box } from "@material-ui/core";
+import DoneIcon from "@material-ui/icons/Done";
 
 import { Pallet } from "./pallet";
+import AppContext from "../../store/context";
+import { SET_FEATURES } from "../../constant";
 
-export default function ColorPicker({ item }) {
-  const [selectedColor, setSelectedColor] = useState(() => {
-    if (item) {
-      return Object.keys(item)[0];
-    }
-  });
+import useStyles from "./style";
+export default function ColorPicker({ items }) {
+  const { state, dispatch } = useContext(AppContext);
+  const selectedColor = state.currentProduct.selectedFeatures.color;
+  const changeSelectedColor = (color) => {
+    dispatch({ type: SET_FEATURES, data: { value: color, name: "color" } });
+  };
 
+  const classes = useStyles();
   return (
     <div>
       <div>
@@ -22,17 +27,19 @@ export default function ColorPicker({ item }) {
           </Box>
         </div>
         <Box display="flex" component="div">
-          {Object.keys(item).map((key, value) => (
-            <>
-              <Box
-                key={key}
-                component="div"
-                mx={0.5}
-                onClick={() => setSelectedColor(key)}
-              >
-                <Pallet color={key} />
-              </Box>
-            </>
+          {Object.keys(items).map((item) => (
+            <Box
+              key={item}
+              component="div"
+              mx={0.5}
+              position="relative"
+              onClick={() => changeSelectedColor(item)}
+            >
+              <DoneIcon
+                className={selectedColor === item ? classes.show : classes.hide}
+              />
+              <Pallet color={item} />
+            </Box>
           ))}
         </Box>
       </div>
