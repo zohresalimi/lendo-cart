@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 
-import { AppBar, Toolbar, Button, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, Button, Typography, Badge } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 import useStyles from "./style";
+import AppContext from "../../store/context";
 
 export default function NavBar() {
+  const { state, dispatch } = useContext(AppContext);
+  const { shopingCart } = state;
   const classes = useStyles();
-
+  console.log("count", shopingCart.lengths);
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.header}>
@@ -30,7 +33,9 @@ export default function NavBar() {
             component={Link}
             to="/checkout"
           >
-            <ShoppingCartIcon />
+            <Badge color="secondary" badgeContent={shopingCart.length}>
+              <ShoppingCartIcon />
+            </Badge>
           </Button>
         </Toolbar>
       </AppBar>

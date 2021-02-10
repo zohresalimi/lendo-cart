@@ -11,6 +11,7 @@ import {
   Chip,
 } from "@material-ui/core";
 import DoneIcon from "@material-ui/icons/Done";
+
 import Avatar from "@material-ui/core/Avatar";
 
 import AppContext from "../../store/context";
@@ -51,12 +52,12 @@ export default function ProductDetailPage() {
 
   const addToCart = (e) => {
     dispatch({ type: ADD_PRODUCT_TO_CART });
-    back(e);
+    back(e, `${product.name} Added to your cart successfully`);
   };
 
-  const back = (e) => {
+  const back = (e, messageText) => {
     e.stopPropagation();
-    history.goBack();
+    history.push("/", { messageText });
   };
 
   const classes = useStyles();

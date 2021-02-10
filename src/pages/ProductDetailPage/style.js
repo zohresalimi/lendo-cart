@@ -38,6 +38,9 @@ const useStyles = makeStyles((theme) => ({
       color: "black",
     },
   },
+  successSnakBar: {
+    backgroundColor: "#4caf50",
+  },
 }));
 
 export default useStyles;
