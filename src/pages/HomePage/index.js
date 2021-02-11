@@ -48,8 +48,8 @@ export default function HomePage() {
         </Grid>
       </Grid>
       <SnakBar
-        showSnakbar={showSnakbar}
-        setShowSnakbar={setShowSnakbar}
+        visible={showSnakbar}
+        hideSnakbar={() => setShowSnakbar(false)}
         text={location.state?.messageText}
       />
     </>

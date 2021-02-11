@@ -1,5 +1,4 @@
-import React, { useContext, useState, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext, useCallback } from "react";
 
 import {
   TableRow,
@@ -10,9 +9,9 @@ import {
 } from "@material-ui/core";
 import ArrowDropUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+
 import { formatPrice } from "../../utils";
 import AppContext from "../../store/context";
-
 import {
   INCREASE_QUANTITY,
   DECREASE_QUANTITY,
@@ -22,7 +21,7 @@ import {
 import useStyles from "../CartItem/style";
 import { RemoveCircleOutline } from "@material-ui/icons";
 
-export default function CartItem({ product }) {
+export default function CartItem({ product, onRemove }) {
   const { state, dispatch } = useContext(AppContext);
   const { products } = state;
 
@@ -44,7 +43,8 @@ export default function CartItem({ product }) {
 
   const removeItem = useCallback(() => {
     dispatch({ type: REMOVE_ITEM, data: product });
-  }, [dispatch, product]);
+    onRemove();
+  }, [dispatch, product, onRemove]);
 
   const classes = useStyles();
 

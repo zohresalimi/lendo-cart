@@ -1,14 +1,12 @@
-import React, { useContext, Fragment } from "react";
+import React, { Fragment } from "react";
 
 import { Snackbar } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
-import AppContext from "../../store/context";
-
 import useStyles from "./style";
 
-export default function SnakBar({ showSnakbar, setShowSnakbar, text }) {
+export default function SnakBar({ visible, hideSnakbar, text, type }) {
   const classes = useStyles();
   return (
     <Snackbar
@@ -18,11 +16,11 @@ export default function SnakBar({ showSnakbar, setShowSnakbar, text }) {
       }}
       ContentProps={{
         "aria-describedby": "message-id",
-        className: classes.successSnakBar,
+        className: classes[`${type || "success"}SnakBar`],
       }}
-      open={showSnakbar}
+      open={visible}
       autoHideDuration={6000}
-      onClose={() => setShowSnakbar(false)}
+      onClose={hideSnakbar}
       message={text}
       action={
         <Fragment>
@@ -30,7 +28,7 @@ export default function SnakBar({ showSnakbar, setShowSnakbar, text }) {
             size="small"
             aria-label="close"
             color="inherit"
-            onClick={() => setShowSnakbar(false)}
+            onClick={hideSnakbar}
           >
             <CloseIcon fontSize="small" />
           </IconButton>
