@@ -10,7 +10,7 @@ import AppContext from "../../store/context";
 
 export default function NavBar() {
   const { state, dispatch } = useContext(AppContext);
-  const { shopingCart } = state;
+  const { shoppingCart } = state;
   const classes = useStyles();
   return (
     <div className={classes.root}>
@@ -32,7 +32,7 @@ export default function NavBar() {
             component={Link}
             to="/checkout"
           >
-            <Badge color="secondary" badgeContent={shopingCart.length}>
+            <Badge color="secondary" badgeContent={`${shoppingCart.length}`}>
               <ShoppingCartIcon />
             </Badge>
           </Button>

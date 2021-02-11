@@ -27,7 +27,7 @@ const TableHeader = withStyles((theme) => ({
 
 export default function CartTable() {
   const { state } = useContext(AppContext);
-  const { shopingCart } = state;
+  const { shoppingCart } = state;
 
   return (
     <TableContainer component={Paper}>
@@ -38,10 +38,11 @@ export default function CartTable() {
             <TableHeader align="right">Price</TableHeader>
             <TableHeader align="right">Qty</TableHeader>
             <TableHeader align="right">Subtotal</TableHeader>
+            <TableHeader align="right">Remove</TableHeader>
           </TableRow>
         </TableHead>
         <TableBody>
-          {shopingCart.map((product) => (
+          {shoppingCart.map((product) => (
             <CartItem product={product} key={product.id} />
           ))}
         </TableBody>

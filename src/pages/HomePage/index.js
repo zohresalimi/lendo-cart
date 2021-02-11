@@ -12,7 +12,7 @@ import useStyles from "./style";
 import { useHistory, useLocation } from "react-router-dom";
 
 export default function HomePage() {
-  const { state, dispatch } = useContext(AppContext);
+  const { dispatch } = useContext(AppContext);
   const [showSnakbar, setShowSnakbar] = useState(false);
   const location = useLocation();
   const history = useHistory();
@@ -33,10 +33,6 @@ export default function HomePage() {
     if (location.state?.messageText) {
       setShowSnakbar(true);
     }
-
-    // return () => {
-    //   history.replace({ ...history.location, state: {} });
-    // };
   }, [history, location.state]);
 
   return (

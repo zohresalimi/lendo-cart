@@ -1,6 +1,6 @@
 const state = {
   products: {},
-  shopingCart: [],
+  shoppingCart: [],
 };
 
 export default state;

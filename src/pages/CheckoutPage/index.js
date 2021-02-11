@@ -8,13 +8,13 @@ import CartTable from "../../components/CartTable";
 
 export default function CheckoutPage() {
   const { state, dispatch } = useContext(AppContext);
-  const { shopingCart } = state;
+  const { shoppingCart } = state;
 
   return (
     <div>
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          {!shopingCart.length ? (
+          {!shoppingCart.length ? (
             <EmptyCart />
           ) : (
             <Paper variant="outlined">

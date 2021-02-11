@@ -13,40 +13,46 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { formatPrice } from "../../utils";
 import AppContext from "../../store/context";
 
-import { INCREASE_QUANTITY } from "../../constant";
+import {
+  INCREASE_QUANTITY,
+  DECREASE_QUANTITY,
+  REMOVE_ITEM,
+} from "../../constant";
 
 import useStyles from "../CartItem/style";
+import { RemoveCircleOutline } from "@material-ui/icons";
 
 export default function CartItem({ product }) {
-  const location = useLocation();
-  const [disabledBtn, setDisabledBtn] = useState(false);
   const { state, dispatch } = useContext(AppContext);
   const { products } = state;
 
+  const remaining =
+    products.productByIds[product.id].byColor[product.selectedFeatures.color]
+      .remaining;
+
   const increaseQuantity = useCallback(() => {
-    const remaining =
-      products.productByIds[product.id].byColor[product.selectedFeatures.color]
-        .remaining;
     if (remaining !== 0) {
       dispatch({ type: INCREASE_QUANTITY, data: product });
-    } else {
-      setDisabledBtn(true);
     }
-  }, [dispatch, product, products.productByIds]);
+  }, [dispatch, product, remaining]);
+
+  const decreaseQuantity = useCallback(() => {
+    if (product.quantity !== 1) {
+      dispatch({ type: DECREASE_QUANTITY, data: product });
+    }
+  }, [dispatch, product]);
+
+  const removeItem = useCallback(() => {
+    dispatch({ type: REMOVE_ITEM, data: product });
+  }, [dispatch, product]);
 
   const classes = useStyles();
 
   return (
     <TableRow key={product.id}>
       <TableCell component="th" scope="row">
-        <Link
-          to={{
-            pathname: `/product-detail/${product.id}`,
-            state: { background: location },
-          }}
-        >
-          {products.productByIds[product.id].name}
-        </Link>
+        <p>{products.productByIds[product.id].name}</p>
+
         <p>
           Brand: <span>{products.productByIds[product.id].brand}</span>
         </p>
@@ -83,14 +89,15 @@ export default function CartItem({ product }) {
               aria-label="plusOne"
               className={classes.plusBtn}
               onClick={increaseQuantity}
-              disabled={disabledBtn}
+              disabled={remaining === 0}
             >
               <ArrowDropUpIcon />
             </IconButton>
             <IconButton
               aria-label="minusOne"
               className={classes.minusBtn}
-              m={1}
+              onClick={decreaseQuantity}
+              disabled={product.quantity <= 1}
             >
               <ArrowDropDownIcon />
             </IconButton>
@@ -101,6 +108,11 @@ export default function CartItem({ product }) {
         {formatPrice(
           products.productByIds[product.id].price * product.quantity
         )}
+      </TableCell>
+      <TableCell align="right">
+        <IconButton aria-label="remove" onClick={removeItem}>
+          <RemoveCircleOutline />
+        </IconButton>
       </TableCell>
     </TableRow>
   );

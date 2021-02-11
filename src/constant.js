@@ -3,3 +3,5 @@ export const SET_CURRENT_PRODUCT = "setCurrentProduct";
 export const SET_FEATURES = "setFeatures";
 export const ADD_PRODUCT_TO_CART = "addProductToCart";
 export const INCREASE_QUANTITY = "increaseQuantity";
+export const DECREASE_QUANTITY = "decreaseQuantity";
+export const REMOVE_ITEM = "removeItem";

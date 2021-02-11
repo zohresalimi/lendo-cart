@@ -4,6 +4,8 @@ import {
   ADD_PRODUCT_TO_CART,
   SET_FEATURES,
   INCREASE_QUANTITY,
+  DECREASE_QUANTITY,
+  REMOVE_ITEM,
 } from "../constant";
 
 const setProducts = (state, data) => {
@@ -54,7 +56,6 @@ const setCurrentProduct = (state, data) => {
 };
 
 const addToCart = (state) => {
-  debugger;
   const { selectedFeatures } = state.currentProduct;
   const addProductTo = {
     quantity: 1,
@@ -84,14 +85,12 @@ const addToCart = (state) => {
         },
       },
     },
-    shopingCart: [...state.shopingCart, addProductTo],
+    shoppingCart: [...state.shoppingCart, addProductTo],
   };
 };
 
 const increaseQuantity = (state, { id, quantity, selectedFeatures }) => {
-  debugger;
-  const { productByIds } = state.products;
-  const shoppingCartNew = state.shopingCart.map((product) => {
+  const shoppingCartNew = state.shoppingCart.map((product) => {
     if (product.id === id) {
       product.quantity = product.quantity + 1;
     }
@@ -120,7 +119,69 @@ const increaseQuantity = (state, { id, quantity, selectedFeatures }) => {
         },
       },
     },
-    shopingCart: shoppingCartNew,
+    shoppingCart: shoppingCartNew,
+  };
+};
+
+const decreaseQuantity = (state, { id, quantity, selectedFeatures }) => {
+  const shoppingCartNew = state.shoppingCart.map((product) => {
+    if (product.id === id) {
+      product.quantity = product.quantity - 1;
+    }
+    return product;
+  });
+
+  return {
+    ...state,
+    products: {
+      ...state.products,
+      productByIds: {
+        ...state.products.productByIds,
+        [id]: {
+          ...state.products.productByIds[id],
+          byColor: {
+            ...state.products.productByIds[id].byColor,
+            [selectedFeatures.color]: {
+              ...state.products.productByIds[id].byColor[
+                selectedFeatures.color
+              ],
+              remaining:
+                state.products.productByIds[id].byColor[selectedFeatures.color]
+                  .remaining + 1,
+            },
+          },
+        },
+      },
+    },
+    shoppingCart: shoppingCartNew,
+  };
+};
+
+const removeItem = (state, { id, quantity, selectedFeatures }) => {
+  const shoppingCart = state.shoppingCart.filter((item) => item.id !== id);
+  const productByIds = {
+    ...state.products.productByIds,
+    [id]: {
+      ...state.products.productByIds[id],
+      byColor: {
+        ...state.products.productByIds[id].byColor,
+        [selectedFeatures.color]: {
+          ...state.products.productByIds[id].byColor[selectedFeatures.color],
+          remaining:
+            state.products.productByIds[id].byColor[selectedFeatures.color]
+              .remaining + quantity,
+        },
+      },
+    },
+  };
+
+  return {
+    ...state,
+    shoppingCart,
+    products: {
+      ...state.products,
+      productByIds,
+    },
   };
 };
 
@@ -145,6 +206,10 @@ const reducer = (state, action) => {
       return addToCart(state);
     case INCREASE_QUANTITY:
       return increaseQuantity(state, action.data);
+    case DECREASE_QUANTITY:
+      return decreaseQuantity(state, action.data);
+    case REMOVE_ITEM:
+      return removeItem(state, action.data);
     default:
       return state;
   }
