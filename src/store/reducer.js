@@ -185,6 +185,19 @@ const removeItem = (state, { id, quantity, selectedFeatures }) => {
   };
 };
 
+const setFeatures = (state, data) => {
+  return {
+    ...state,
+    currentProduct: {
+      ...state.currentProduct,
+      selectedFeatures: {
+        ...state.currentProduct.selectedFeatures,
+        [data.name]: data.value,
+      },
+    },
+  };
+};
+
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_PRODUCTS_REDUCER:
@@ -192,16 +205,7 @@ const reducer = (state, action) => {
     case SET_CURRENT_PRODUCT:
       return setCurrentProduct(state, action.data);
     case SET_FEATURES:
-      return {
-        ...state,
-        currentProduct: {
-          ...state.currentProduct,
-          selectedFeatures: {
-            ...state.currentProduct.selectedFeatures,
-            [action.data.name]: action.data.value,
-          },
-        },
-      };
+      return setFeatures(state, action.data);
     case ADD_PRODUCT_TO_CART:
       return addToCart(state);
     case INCREASE_QUANTITY:
