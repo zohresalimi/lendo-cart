@@ -3,6 +3,7 @@ import {
   SET_CURRENT_PRODUCT,
   ADD_PRODUCT_TO_CART,
   SET_FEATURES,
+  INCREASE_QUANTITY,
 } from "../constant";
 
 const setProducts = (state, data) => {
@@ -53,7 +54,12 @@ const setCurrentProduct = (state, data) => {
 };
 
 const addToCart = (state) => {
+  debugger;
   const { selectedFeatures } = state.currentProduct;
+  const addProductTo = {
+    quantity: 1,
+    ...state.currentProduct,
+  };
 
   return {
     ...state,
@@ -78,10 +84,43 @@ const addToCart = (state) => {
         },
       },
     },
-    shopingCart: [
-      ...state.shopingCart,
-      state.products.productByIds[state.currentProduct.id],
-    ],
+    shopingCart: [...state.shopingCart, addProductTo],
+  };
+};
+
+const increaseQuantity = (state, { id, quantity, selectedFeatures }) => {
+  debugger;
+  const { productByIds } = state.products;
+  const shoppingCartNew = state.shopingCart.map((product) => {
+    if (product.id === id) {
+      product.quantity = product.quantity + 1;
+    }
+    return product;
+  });
+
+  return {
+    ...state,
+    products: {
+      ...state.products,
+      productByIds: {
+        ...state.products.productByIds,
+        [id]: {
+          ...state.products.productByIds[id],
+          byColor: {
+            ...state.products.productByIds[id].byColor,
+            [selectedFeatures.color]: {
+              ...state.products.productByIds[id].byColor[
+                selectedFeatures.color
+              ],
+              remaining:
+                state.products.productByIds[id].byColor[selectedFeatures.color]
+                  .remaining - 1,
+            },
+          },
+        },
+      },
+    },
+    shopingCart: shoppingCartNew,
   };
 };
 
@@ -103,7 +142,9 @@ const reducer = (state, action) => {
         },
       };
     case ADD_PRODUCT_TO_CART:
-      return addToCart(state, action.data);
+      return addToCart(state);
+    case INCREASE_QUANTITY:
+      return increaseQuantity(state, action.data);
     default:
       return state;
   }

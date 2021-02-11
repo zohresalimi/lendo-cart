@@ -12,7 +12,6 @@ export default function NavBar() {
   const { state, dispatch } = useContext(AppContext);
   const { shopingCart } = state;
   const classes = useStyles();
-  console.log("count", shopingCart.lengths);
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.header}>

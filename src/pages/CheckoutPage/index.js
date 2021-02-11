@@ -4,6 +4,7 @@ import { Grid, Paper } from "@material-ui/core";
 import AppContext from "../../store/context";
 
 import EmptyCart from "../../components/EmptyCart";
+import CartTable from "../../components/CartTable";
 
 export default function CheckoutPage() {
   const { state, dispatch } = useContext(AppContext);
@@ -16,7 +17,9 @@ export default function CheckoutPage() {
           {!shopingCart.length ? (
             <EmptyCart />
           ) : (
-            <Paper variant="outlined">hhh</Paper>
+            <Paper variant="outlined">
+              <CartTable />
+            </Paper>
           )}
         </Grid>
       </Grid>
