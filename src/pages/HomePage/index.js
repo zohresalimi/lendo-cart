@@ -34,9 +34,9 @@ export default function HomePage() {
       setShowSnakbar(true);
     }
 
-    // return () => {
-    //   history.replace({ ...history.location, state: {} });
-    // };
+    return () => {
+      history.replace({ ...history.location, state: {} });
+    };
   }, [history, location.state]);
 
   return (
