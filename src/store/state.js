@@ -1,5 +1,9 @@
 const state = {
-  products: {},
+  products: {
+    items: [],
+    byId: {},
+    byColor: {},
+  },
   currentProduct: null,
   shoppingCart: [],
 };

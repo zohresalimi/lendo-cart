@@ -9,37 +9,38 @@ import {
 } from "../constant";
 
 const setProducts = (state, data) => {
-  let productByIds = {};
+  let byId = {};
+  let byColor = {};
   data.forEach((item) => {
-    let byColor = {};
-    productByIds[item.id] = item;
+    byId[item.id] = item;
     item.options?.forEach(({ quantity, color, ...opt }) => {
       const colorKey = typeof color === "object" ? color.join("/") : color;
       byColor[colorKey] = {
-        remaining: quantity,
-        ...opt,
+        ...byColor[colorKey],
+        [item.id]: {
+          remaining: quantity,
+          ...opt,
+        },
       };
     });
-    productByIds[item.id] = {
-      ...productByIds[item.id],
-      byColor,
-    };
   });
 
   return {
     ...state,
     products: {
       items: data,
-      productByIds,
+      byId,
+      byColor,
     },
   };
 };
 
 const setCurrentProduct = (state, data) => {
   const currentProduct = { id: data.id };
-  const selectedColor = Object.keys(data.byColor)[0];
+  const selectedColor =
+    data.options.find((option) => option.color)?.color || "";
   const [featureName, featureOptions] =
-    Object.entries(data.byColor[selectedColor]).find(
+    Object.entries(state.products.byColor[selectedColor][data.id]).find(
       (item) => item[0] !== "remaining"
     ) || [];
 
@@ -56,42 +57,60 @@ const setCurrentProduct = (state, data) => {
 };
 
 const addToCart = (state) => {
-  const { selectedFeatures } = state.currentProduct;
-  const addProductTo = {
-    quantity: 1,
-    ...state.currentProduct,
-  };
+  const { selectedFeatures, id } = state.currentProduct;
+  const isSameItem = (item) =>
+    item.id === id &&
+    JSON.stringify(item.selectedFeatures) === JSON.stringify(selectedFeatures);
+  const isAddedBefore = state.shoppingCart.some(isSameItem);
+  let shoppingCart;
+
+  if (isAddedBefore) {
+    shoppingCart = state.shoppingCart.map((item) => {
+      return {
+        ...item,
+        quantity: isSameItem(item) ? item.quantity + 1 : item.quantity,
+      };
+    });
+  } else {
+    shoppingCart = [
+      ...state.shoppingCart,
+      {
+        ...state.currentProduct,
+        quantity: 1,
+      },
+    ];
+  }
 
   return {
     ...state,
     products: {
       ...state.products,
-      productByIds: {
-        ...state.products.productByIds,
-        [state.currentProduct.id]: {
-          ...state.products.productByIds[state.currentProduct.id],
-          byColor: {
-            ...state.products.productByIds[state.currentProduct.id].byColor,
-            [selectedFeatures.color]: {
-              ...state.products.productByIds[state.currentProduct.id].byColor[
-                selectedFeatures.color
-              ],
-              remaining:
-                state.products.productByIds[state.currentProduct.id].byColor[
-                  selectedFeatures.color
-                ].remaining - 1,
-            },
+      byColor: {
+        ...state.products.byColor,
+        [selectedFeatures.color]: {
+          ...state.products.byColor[selectedFeatures.color],
+          [state.currentProduct.id]: {
+            ...state.products.byColor[selectedFeatures.color][
+              state.currentProduct.id
+            ],
+            remaining:
+              state.products.byColor[selectedFeatures.color][
+                state.currentProduct.id
+              ].remaining - 1,
           },
         },
       },
     },
-    shoppingCart: [...state.shoppingCart, addProductTo],
+    shoppingCart,
   };
 };
 
 const increaseQuantity = (state, { id, quantity, selectedFeatures }) => {
+  const isSameItem = (item) =>
+    item.id === id &&
+    JSON.stringify(item.selectedFeatures) === JSON.stringify(selectedFeatures);
   const shoppingCartNew = state.shoppingCart.map((product) => {
-    if (product.id === id) {
+    if (product.id === id && isSameItem(product)) {
       product.quantity = product.quantity + 1;
     }
     return product;
@@ -101,20 +120,14 @@ const increaseQuantity = (state, { id, quantity, selectedFeatures }) => {
     ...state,
     products: {
       ...state.products,
-      productByIds: {
-        ...state.products.productByIds,
-        [id]: {
-          ...state.products.productByIds[id],
-          byColor: {
-            ...state.products.productByIds[id].byColor,
-            [selectedFeatures.color]: {
-              ...state.products.productByIds[id].byColor[
-                selectedFeatures.color
-              ],
-              remaining:
-                state.products.productByIds[id].byColor[selectedFeatures.color]
-                  .remaining - 1,
-            },
+      byColor: {
+        ...state.products.byColor,
+        [selectedFeatures.color]: {
+          ...state.products.byColor[selectedFeatures.color],
+          [id]: {
+            ...state.products.byColor[selectedFeatures.color][id],
+            remaining:
+              state.products.byColor[selectedFeatures.color][id].remaining - 1,
           },
         },
       },
@@ -124,8 +137,11 @@ const increaseQuantity = (state, { id, quantity, selectedFeatures }) => {
 };
 
 const decreaseQuantity = (state, { id, quantity, selectedFeatures }) => {
+  const isSameItem = (item) =>
+    item.id === id &&
+    JSON.stringify(item.selectedFeatures) === JSON.stringify(selectedFeatures);
   const shoppingCartNew = state.shoppingCart.map((product) => {
-    if (product.id === id) {
+    if (product.id === id && isSameItem(product)) {
       product.quantity = product.quantity - 1;
     }
     return product;
@@ -135,20 +151,14 @@ const decreaseQuantity = (state, { id, quantity, selectedFeatures }) => {
     ...state,
     products: {
       ...state.products,
-      productByIds: {
-        ...state.products.productByIds,
-        [id]: {
-          ...state.products.productByIds[id],
-          byColor: {
-            ...state.products.productByIds[id].byColor,
-            [selectedFeatures.color]: {
-              ...state.products.productByIds[id].byColor[
-                selectedFeatures.color
-              ],
-              remaining:
-                state.products.productByIds[id].byColor[selectedFeatures.color]
-                  .remaining + 1,
-            },
+      byColor: {
+        ...state.products.byColor,
+        [selectedFeatures.color]: {
+          ...state.products.byColor[selectedFeatures.color],
+          [id]: {
+            ...state.products.byColor[selectedFeatures.color][id],
+            remaining:
+              state.products.byColor[selectedFeatures.color][id].remaining + 1,
           },
         },
       },
@@ -158,19 +168,19 @@ const decreaseQuantity = (state, { id, quantity, selectedFeatures }) => {
 };
 
 const removeItem = (state, { id, quantity, selectedFeatures }) => {
-  const shoppingCart = state.shoppingCart.filter((item) => item.id !== id);
-  const productByIds = {
-    ...state.products.productByIds,
-    [id]: {
-      ...state.products.productByIds[id],
-      byColor: {
-        ...state.products.productByIds[id].byColor,
-        [selectedFeatures.color]: {
-          ...state.products.productByIds[id].byColor[selectedFeatures.color],
-          remaining:
-            state.products.productByIds[id].byColor[selectedFeatures.color]
-              .remaining + quantity,
-        },
+  const isNotSameItem = (item) =>
+    item.id !== id ||
+    JSON.stringify(item.selectedFeatures) !== JSON.stringify(selectedFeatures);
+  const shoppingCart = state.shoppingCart.filter(isNotSameItem);
+  const byColor = {
+    ...state.products.byColor,
+    [selectedFeatures.color]: {
+      ...state.products.byColor[selectedFeatures.color],
+      [id]: {
+        ...state.products.byColor[selectedFeatures.color][id],
+        remaining:
+          state.products.byColor[selectedFeatures.color][id].remaining +
+          quantity,
       },
     },
   };
@@ -180,7 +190,7 @@ const removeItem = (state, { id, quantity, selectedFeatures }) => {
     shoppingCart,
     products: {
       ...state.products,
-      productByIds,
+      byColor,
     },
   };
 };

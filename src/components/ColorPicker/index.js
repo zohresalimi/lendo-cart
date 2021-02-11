@@ -27,7 +27,7 @@ export default function ColorPicker({ items }) {
           </Box>
         </div>
         <Box display="flex" component="div">
-          {Object.keys(items).map((item) => (
+          {items.map((item) => (
             <Box
               key={item}
               component="div"

@@ -27,16 +27,16 @@ import { SET_CURRENT_PRODUCT, ADD_PRODUCT_TO_CART } from "../../constant";
 
 export default function ProductDetailPage() {
   const { state, dispatch } = useContext(AppContext);
-  const { productByIds } = state.products;
+  const { byId, byColor } = state.products;
 
   const history = useHistory();
   let { id } = useParams();
-  const product = productByIds[id];
+  const product = byId[id];
   const productByColor = useMemo(() => {
     if (state.currentProduct) {
-      return product.byColor[state.currentProduct.selectedFeatures.color];
+      return byColor[state.currentProduct.selectedFeatures.color][id];
     }
-  }, [product.byColor, state.currentProduct]);
+  }, [byColor, state.currentProduct, id]);
 
   const isDisabled = useMemo(() => {
     if (productByColor) {
@@ -49,6 +49,8 @@ export default function ProductDetailPage() {
       dispatch({ type: SET_CURRENT_PRODUCT, data: product });
     }
   }, [dispatch, product]);
+
+  const colorOptions = byId[id].options.map((option) => option.color);
 
   const addToCart = (e) => {
     dispatch({ type: ADD_PRODUCT_TO_CART });
@@ -99,9 +101,9 @@ export default function ProductDetailPage() {
               deleteIcon={<DoneIcon />}
             />
 
-            {product.byColor && (
+            {colorOptions && (
               <>
-                <ColorPicker items={product.byColor} />
+                <ColorPicker items={colorOptions} />
                 <Feature />
               </>
             )}

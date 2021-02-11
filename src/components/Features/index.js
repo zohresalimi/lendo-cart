@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import React, { useContext, useMemo } from "react";
 import { Box, ButtonGroup, Button } from "@material-ui/core";
 import AppContext from "../../store/context";
 
@@ -8,18 +8,17 @@ import useStyles from "./style";
 export default function Feature() {
   const { state, dispatch } = useContext(AppContext);
   const { selectedFeatures, id } = state.currentProduct;
-  const { productByIds } = state.products;
+  const { byColor } = state.products;
 
   const [featureName, featureOptions] = useMemo(() => {
     return (
-      Object.entries(productByIds[id]?.byColor[selectedFeatures.color]).find(
+      Object.entries(byColor[selectedFeatures.color][id]).find(
         (item) => item[0] !== "remaining"
       ) || []
     );
-  }, [id, productByIds, selectedFeatures.color]);
+  }, [id, byColor, selectedFeatures.color]);
 
   const handelClick = (item) => {
-    console.log(item);
     dispatch({ type: SET_FEATURES, data: { value: item, name: featureName } });
   };
 

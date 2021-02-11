@@ -23,11 +23,10 @@ import { RemoveCircleOutline } from "@material-ui/icons";
 
 export default function CartItem({ product, onRemove }) {
   const { state, dispatch } = useContext(AppContext);
-  const { products } = state;
+  const { byColor, byId } = state.products;
+  const { quantity, selectedFeatures } = product;
 
-  const remaining =
-    products.productByIds[product.id].byColor[product.selectedFeatures.color]
-      .remaining;
+  const remaining = byColor[selectedFeatures.color][product.id].remaining;
 
   const increaseQuantity = useCallback(() => {
     if (remaining !== 0) {
@@ -36,10 +35,10 @@ export default function CartItem({ product, onRemove }) {
   }, [dispatch, product, remaining]);
 
   const decreaseQuantity = useCallback(() => {
-    if (product.quantity !== 1) {
+    if (quantity !== 1) {
       dispatch({ type: DECREASE_QUANTITY, data: product });
     }
-  }, [dispatch, product]);
+  }, [dispatch, quantity, product]);
 
   const removeItem = useCallback(() => {
     dispatch({ type: REMOVE_ITEM, data: product });
@@ -51,15 +50,21 @@ export default function CartItem({ product, onRemove }) {
   return (
     <TableRow key={product.id}>
       <TableCell component="th" scope="row">
-        <p>{products.productByIds[product.id].name}</p>
+        <p>{byId[product.id].name}</p>
 
         <p>
-          Brand: <span>{products.productByIds[product.id].brand}</span>
+          Brand: <span>{byId[product.id].brand}</span>
+        </p>
+
+        <p>
+          {Object.keys(product.selectedFeatures).map((feature) => (
+            <Box>
+              {feature}: {product.selectedFeatures[feature]}
+            </Box>
+          ))}
         </p>
       </TableCell>
-      <TableCell align="right">
-        {formatPrice(products.productByIds[product.id].price)}
-      </TableCell>
+      <TableCell align="right">{formatPrice(byId[product.id].price)}</TableCell>
       <TableCell align="right">
         <Box
           display="flex"
@@ -71,8 +76,8 @@ export default function CartItem({ product, onRemove }) {
             <TextField
               className={classes.inputWrapper}
               variant="outlined"
-              defaultValue={product.quantity}
-              value={product.quantity}
+              defaultValue={quantity}
+              value={quantity}
               InputProps={{
                 className: classes.input,
               }}
@@ -97,7 +102,7 @@ export default function CartItem({ product, onRemove }) {
               aria-label="minusOne"
               className={classes.minusBtn}
               onClick={decreaseQuantity}
-              disabled={product.quantity <= 1}
+              disabled={quantity <= 1}
             >
               <ArrowDropDownIcon />
             </IconButton>
@@ -105,9 +110,7 @@ export default function CartItem({ product, onRemove }) {
         </Box>
       </TableCell>
       <TableCell align="right">
-        {formatPrice(
-          products.productByIds[product.id].price * product.quantity
-        )}
+        {formatPrice(byId[product.id].price * quantity)}
       </TableCell>
       <TableCell align="right">
         <IconButton aria-label="remove" onClick={removeItem}>

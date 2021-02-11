@@ -1,5 +1,4 @@
-import React, { useContext, useState, useCallback } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useContext, useState, useMemo } from "react";
 
 import {
   Paper,
@@ -9,9 +8,11 @@ import {
   TableContainer,
   Table,
   TableBody,
+  Box,
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 
+import { formatPrice } from "../../utils";
 import CartItem from "../CartItem";
 import SnakBar from "../../components/SnakBar";
 import AppContext from "../../store/context";
@@ -29,7 +30,14 @@ const TableHeader = withStyles((theme) => ({
 export default function CartTable() {
   const [showSnakbar, setShowSnakbar] = useState(false);
   const { state } = useContext(AppContext);
-  const { shoppingCart } = state;
+  const { shoppingCart, products } = state;
+
+  const totalAmount = useMemo(() => {
+    return shoppingCart.reduce((total, { quantity, id }) => {
+      const price = products.byId[id].price;
+      return total + price * quantity;
+    }, 0);
+  }, [shoppingCart, products]);
 
   return (
     <>
@@ -61,6 +69,9 @@ export default function CartTable() {
           </TableBody>
         </Table>
       </TableContainer>
+      <Box display="flex" flexDirection="row-reverse" mt={4}>
+        Total amount: {formatPrice(totalAmount)}
+      </Box>
     </>
   );
 }
