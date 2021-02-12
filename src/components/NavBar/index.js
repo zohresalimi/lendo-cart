@@ -9,7 +9,7 @@ import useStyles from "./style";
 import AppContext from "../../store/context";
 
 export default function NavBar() {
-  const { state, dispatch } = useContext(AppContext);
+  const { state } = useContext(AppContext);
   const { shoppingCart } = state;
   const classes = useStyles();
   return (

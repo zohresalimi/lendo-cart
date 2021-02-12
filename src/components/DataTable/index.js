@@ -29,7 +29,7 @@ const TableHeader = withStyles((theme) => ({
 }))(TableCell);
 
 export default function DataTable() {
-  const { state, dispatch } = useContext(AppContext);
+  const { state } = useContext(AppContext);
   const { items } = state.products;
   const location = useLocation();
 
