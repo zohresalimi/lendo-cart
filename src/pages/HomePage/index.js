@@ -28,6 +28,10 @@ export default function HomePage() {
   }, [data, dispatch]);
 
   useEffect(() => {
+    /**
+     * Showing the `Added to cart` notification
+     * reading the text from location state
+     */
     if (location.state?.messageText) {
       setShowSnakbar(true);
     }

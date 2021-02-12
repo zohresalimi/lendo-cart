@@ -54,6 +54,14 @@ export default function ProductDetailPage() {
 
   const addToCart = (e) => {
     dispatch({ type: ADD_PRODUCT_TO_CART });
+
+    /**
+     * Passing a string back to Home Page
+     * through location state, because if
+     * we show notification here and then
+     * redirect to home page, notification
+     * disappeares quickly
+     */
     back(e, `${product.name} Added to your cart successfully`);
   };
 

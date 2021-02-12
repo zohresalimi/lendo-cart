@@ -11,6 +11,10 @@ import NavBar from "./components/NavBar";
 
 import AppSwitch from "./AppSwitch";
 
+/**
+ * Using MirageJs to create a fake test
+ * server for development purposes
+ */
 new Server({
   routes() {
     this.namespace = "api";

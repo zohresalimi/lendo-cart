@@ -42,6 +42,11 @@ export default function CartItem({ product, onRemove }) {
 
   const removeItem = useCallback(() => {
     dispatch({ type: REMOVE_ITEM, data: product });
+
+    /**
+     * This will be used in the parent component
+     * for showing the remove notification message
+     */
     onRemove();
   }, [dispatch, product, onRemove]);
 
