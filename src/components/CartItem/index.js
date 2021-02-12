@@ -48,7 +48,7 @@ export default function CartItem({ product, onRemove }) {
   const classes = useStyles();
 
   return (
-    <TableRow key={product.id}>
+    <TableRow>
       <TableCell component="th" scope="row">
         <p>{byId[product.id].name}</p>
 
@@ -56,13 +56,11 @@ export default function CartItem({ product, onRemove }) {
           Brand: <span>{byId[product.id].brand}</span>
         </p>
 
-        <p>
-          {Object.keys(product.selectedFeatures).map((feature) => (
-            <Box>
-              {feature}: {product.selectedFeatures[feature]}
-            </Box>
-          ))}
-        </p>
+        {Object.keys(product.selectedFeatures).map((feature) => (
+          <Box key={feature}>
+            {feature}: {product.selectedFeatures[feature]}
+          </Box>
+        ))}
       </TableCell>
       <TableCell align="right">{formatPrice(byId[product.id].price)}</TableCell>
       <TableCell align="right">
@@ -76,7 +74,6 @@ export default function CartItem({ product, onRemove }) {
             <TextField
               className={classes.inputWrapper}
               variant="outlined"
-              defaultValue={quantity}
               value={quantity}
               InputProps={{
                 className: classes.input,
@@ -91,6 +88,7 @@ export default function CartItem({ product, onRemove }) {
             className={classes.btnWrapper}
           >
             <IconButton
+              data-testid="increase-button"
               aria-label="plusOne"
               className={classes.plusBtn}
               onClick={increaseQuantity}
@@ -99,6 +97,7 @@ export default function CartItem({ product, onRemove }) {
               <ArrowDropUpIcon />
             </IconButton>
             <IconButton
+              data-testid="decrease-button"
               aria-label="minusOne"
               className={classes.minusBtn}
               onClick={decreaseQuantity}
@@ -113,7 +112,11 @@ export default function CartItem({ product, onRemove }) {
         {formatPrice(byId[product.id].price * quantity)}
       </TableCell>
       <TableCell align="right">
-        <IconButton aria-label="remove" onClick={removeItem}>
+        <IconButton
+          data-testid="remove-button"
+          aria-label="remove"
+          onClick={removeItem}
+        >
           <RemoveCircleOutline />
         </IconButton>
       </TableCell>

@@ -1,10 +1,11 @@
-import { act, render, screen } from "@testing-library/react";
+import { act, render } from "@testing-library/react";
 import App from "../App";
 
 import { WithProvider } from "../mockTestData/data";
 
 jest.mock("../components/NavBar", () => () => <div>NavBar Component</div>);
 jest.mock("../AppSwitch", () => () => <div>AppSwitch Component</div>);
+
 async function renderWrapper(props) {
   let component;
   act(() => {

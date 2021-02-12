@@ -9,7 +9,6 @@ export default function Feature() {
   const { state, dispatch } = useContext(AppContext);
   const { selectedFeatures, id } = state.currentProduct;
   const { byColor } = state.products;
-
   const [featureName, featureOptions] = useMemo(() => {
     return (
       Object.entries(byColor[selectedFeatures.color][id]).find(

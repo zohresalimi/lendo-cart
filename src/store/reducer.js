@@ -105,7 +105,7 @@ const addToCart = (state) => {
   };
 };
 
-const increaseQuantity = (state, { id, quantity, selectedFeatures }) => {
+const increaseQuantity = (state, { id, selectedFeatures }) => {
   const isSameItem = (item) =>
     item.id === id &&
     JSON.stringify(item.selectedFeatures) === JSON.stringify(selectedFeatures);
@@ -136,7 +136,7 @@ const increaseQuantity = (state, { id, quantity, selectedFeatures }) => {
   };
 };
 
-const decreaseQuantity = (state, { id, quantity, selectedFeatures }) => {
+const decreaseQuantity = (state, { id, selectedFeatures }) => {
   const isSameItem = (item) =>
     item.id === id &&
     JSON.stringify(item.selectedFeatures) === JSON.stringify(selectedFeatures);
@@ -171,7 +171,9 @@ const removeItem = (state, { id, quantity, selectedFeatures }) => {
   const isNotSameItem = (item) =>
     item.id !== id ||
     JSON.stringify(item.selectedFeatures) !== JSON.stringify(selectedFeatures);
+
   const shoppingCart = state.shoppingCart.filter(isNotSameItem);
+
   const byColor = {
     ...state.products.byColor,
     [selectedFeatures.color]: {

@@ -70,6 +70,7 @@ export default function ProductDetailPage() {
     <div>
       {product && (
         <Dialog
+          data-testid="dialog-wrapper"
           fullScreen={fullScreen}
           open={true}
           onClose={back}
@@ -117,6 +118,7 @@ export default function ProductDetailPage() {
               cancel
             </Button>
             <Button
+              data-testid="add-to-cart"
               variant="contained"
               autoFocus
               className={classes.addToCart}

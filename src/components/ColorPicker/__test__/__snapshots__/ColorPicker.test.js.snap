@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Color Picker should match snapshot 1`] = `
+<div>
+  <div>
+    <div>
+      <div>
+        <p
+          class="MuiBox-root MuiBox-root-3"
+        >
+          Color:
+          <span
+            class="MuiBox-root MuiBox-root-4"
+          >
+            white
+          </span>
+        </p>
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-5"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-6"
+          data-testid="select-color"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root makeStyles-show-1"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+            />
+          </svg>
+          <button
+            class="sc-bdfBwQ ejIjHW"
+            color="white"
+          />
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-7"
+          data-testid="select-color"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root makeStyles-hide-2"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z"
+            />
+          </svg>
+          <button
+            class="sc-bdfBwQ gMWguJ"
+            color="red"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

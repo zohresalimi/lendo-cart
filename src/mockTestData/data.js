@@ -1,4 +1,4 @@
-import React, { Children, useReducer } from "react";
+import React, { useReducer } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import AppContext from "../store/context";
@@ -9,11 +9,58 @@ export const getTestStore = () => {
     currentProduct: {
       id: 1,
       selectedFeatures: {
-        color: "whith",
+        color: "white",
         power: 6.5,
       },
     },
     products: {
+      items: [
+        {
+          id: 1,
+          name: "Philips hue bulb",
+          brand: "Philips",
+          price: "500",
+          available: true,
+          weight: 0.2,
+          options: [
+            {
+              color: "white",
+              power: [6.5, 9.5],
+              quantity: 3,
+            },
+            {
+              color: "red",
+              power: [6.5, 9.5],
+              quantity: 7,
+            },
+          ],
+        },
+        {
+          id: 2,
+          name: "Trådfria Lampor",
+          brand: "IKEA",
+          price: "300",
+          available: true,
+          weight: 0.2,
+          options: [
+            {
+              color: "white",
+              power: [6.5, 9.5],
+              quantity: 3,
+            },
+            {
+              color: "red",
+              power: [6.5, 9.5],
+              quantity: 7,
+            },
+            {
+              color: "green",
+              power: [6.5],
+              quantity: 0,
+            },
+          ],
+        },
+      ],
       byColor: {
         white: {
           1: { power: [6.5, 9.5], remaining: 3 },
@@ -22,6 +69,9 @@ export const getTestStore = () => {
         red: {
           1: { power: [6.5, 9.5], remaining: 7 },
           2: { power: [6.5, 9.5], remaining: 7 },
+        },
+        green: {
+          2: { power: [6.5], remaining: 0 },
         },
       },
       byId: {
@@ -84,7 +134,7 @@ export const WithProvider = (props) => {
   return (
     <AppContext.Provider
       value={{
-        state,
+        state: props.mockState || state,
         dispatch: props.mockDispatch || dispatch,
       }}
     >

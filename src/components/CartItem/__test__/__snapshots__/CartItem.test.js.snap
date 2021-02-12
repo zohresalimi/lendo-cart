@@ -1,0 +1,170 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Cart Item should match snapshot 1`] = `
+<tbody>
+  <tr
+    class="MuiTableRow-root"
+  >
+    <th
+      class="MuiTableCell-root"
+      role="cell"
+      scope="row"
+    >
+      <p>
+        Philips hue bulb
+      </p>
+      <p>
+        Brand: 
+        <span>
+          Philips
+        </span>
+      </p>
+      <div
+        class="MuiBox-root MuiBox-root-4"
+      >
+        color
+        : 
+        white
+      </div>
+      <div
+        class="MuiBox-root MuiBox-root-5"
+      >
+        power
+        : 
+        6.5
+      </div>
+    </th>
+    <td
+      class="MuiTableCell-root MuiTableCell-alignRight"
+    >
+      500,00 kr
+    </td>
+    <td
+      class="MuiTableCell-root MuiTableCell-alignRight"
+    >
+      <div
+        class="MuiBox-root MuiBox-root-6"
+      >
+        <div
+          class="MuiBox-root MuiBox-root-7"
+        >
+          <div
+            class="MuiFormControl-root MuiTextField-root makeStyles-inputWrapper-1"
+          >
+            <div
+              class="MuiInputBase-root MuiOutlinedInput-root makeStyles-input-2 MuiInputBase-formControl"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiInputBase-input MuiOutlinedInput-input"
+                type="text"
+                value="1"
+              />
+              <fieldset
+                aria-hidden="true"
+                class="PrivateNotchedOutline-root-8 MuiOutlinedInput-notchedOutline"
+                style="padding-left: 8px;"
+              >
+                <legend
+                  class="PrivateNotchedOutline-legend-9"
+                  style="width: 0.01px;"
+                >
+                  <span>
+                    ​
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root MuiBox-root-12 makeStyles-btnWrapper-3"
+        >
+          <button
+            aria-label="plusOne"
+            class="MuiButtonBase-root MuiIconButton-root"
+            data-testid="increase-button"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 14l5-5 5 5z"
+                />
+              </svg>
+            </span>
+            <span
+              class="MuiTouchRipple-root"
+            />
+          </button>
+          <button
+            aria-label="minusOne"
+            class="MuiButtonBase-root MuiIconButton-root Mui-disabled Mui-disabled"
+            data-testid="decrease-button"
+            disabled=""
+            tabindex="-1"
+            type="button"
+          >
+            <span
+              class="MuiIconButton-label"
+            >
+              <svg
+                aria-hidden="true"
+                class="MuiSvgIcon-root"
+                focusable="false"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  d="M7 10l5 5 5-5z"
+                />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </td>
+    <td
+      class="MuiTableCell-root MuiTableCell-alignRight"
+    >
+      500,00 kr
+    </td>
+    <td
+      class="MuiTableCell-root MuiTableCell-alignRight"
+    >
+      <button
+        aria-label="remove"
+        class="MuiButtonBase-root MuiIconButton-root"
+        data-testid="remove-button"
+        tabindex="0"
+        type="button"
+      >
+        <span
+          class="MuiIconButton-label"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M7 11v2h10v-2H7zm5-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"
+            />
+          </svg>
+        </span>
+        <span
+          class="MuiTouchRipple-root"
+        />
+      </button>
+    </td>
+  </tr>
+</tbody>
+`;

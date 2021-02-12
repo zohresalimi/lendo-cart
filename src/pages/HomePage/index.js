@@ -21,8 +21,6 @@ export default function HomePage() {
 
   const classes = useStyles();
 
-  console.log(location);
-
   useEffect(() => {
     if (data) {
       dispatch({ type: SET_PRODUCTS_REDUCER, data: data.items });

@@ -33,6 +33,7 @@ export default function ColorPicker({ items }) {
               component="div"
               mx={0.5}
               position="relative"
+              data-testid="select-color"
               onClick={() => changeSelectedColor(item)}
             >
               <DoneIcon
