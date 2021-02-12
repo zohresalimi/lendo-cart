@@ -17,10 +17,7 @@ function AppSwitch() {
       <Container maxWidth="md">
         <Switch location={background || location}>
           <Route exact path="/" component={HomePage}></Route>
-          <Route
-            path="/product-detail/:id"
-            children={ProductDetailPage}
-          ></Route>
+          <Route path="/product-detail/:id" children={ProductDetailPage} />
           <Route path="/checkout" component={CheckoutPage}></Route>
         </Switch>
       </Container>
