@@ -25,6 +25,14 @@ new Server({
 });
 
 function App() {
+  /**
+   * We could store a copy of our state in localstorage
+   * and read and assign that as a default value for
+   * our initial state. This way, we could have our
+   * products result cached, and then avoid calling
+   * to same API and re-doing the data processing
+   * everytime when user opens the page.
+   */
   const [state, dispatch] = useReducer(store.reducer, store.state);
 
   return (
