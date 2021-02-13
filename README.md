@@ -1,6 +1,8 @@
-# shopping Cart
+# Shopping Cart
 
-minimal online shopping .
+## Simple React Shopping Cart
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ### Tech
 
@@ -8,6 +10,8 @@ we are useing a number of open source tools:
 
 - [react] - A JavaScript library for building user interfaces
 - [styled-components] - Visual primitives for the component age.
+- [axios] - Promise based HTTP client for the browser and node.js.
+- [react material ui]- UI framework.
 
 # Installation
 
